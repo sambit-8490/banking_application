@@ -11,6 +11,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>bankapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>bankapp</name>
 	<description>Banking Web Application</description>
 	<url/>
@@ -74,8 +75,10 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<packaging>war</packaging>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
