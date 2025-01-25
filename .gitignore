@@ -33,3 +33,5 @@ build/
 .vscode/
 ### Docker ###
 docker-compose.yml
+
+guide.txt
