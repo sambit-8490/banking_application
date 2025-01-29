@@ -36,3 +36,4 @@ docker-compose.yml
 
 guide.txt
 kubernetes
+Jenkinsfile
