@@ -12,15 +12,15 @@ spec:
         app: mysql-db
     spec:
       containers:
-      - name: mysql
-        image: mysql
-        ports:
-        - containerPort: 3306
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: Test@123
-        - name: MYSQL_DATABASE
-          value: bankappdb
+        - name: mysql
+          image: mysql
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: Test@123
+            - name: MYSQL_DATABASE
+              value: bankappdb
   replicas: 1
   selector:
     matchLabels:
