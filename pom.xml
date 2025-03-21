@@ -85,13 +85,13 @@
 	<distributionManagement>
 		<repository>
 			<id>maven-releases</id>
-			<url>http://54.147.177.93:8081/repository/maven-releases/</url>
+			<url>http://18.212.215.4:8081/repository/maven-releases/</url>
 		</repository>
 
 		<snapshotRepository>
 			<id>maven-snapshots</id>
-			<url>http://54.147.177.93:8081/repository/maven-snapshots/</url>
+			<url>http://18.212.215.4:8081/repository/maven-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
-
+<!-- works on tmcat 11 version -->
 </project>

@@ -85,3 +85,42 @@ To create a new MySQL user with the username `root` and password `Test@123`, fol
       This exits the MySQL shell.
 
 You have successfully created a MySQL user with the username `root` and password `Test@123`.
+
+
+## Trivy Installation Steps
+
+sudo apt-get install wget apt-transport-https gnupg lsb-release
+
+wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+
+echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+
+sudo apt-get update -y
+
+sudo apt-get install trivy -y
+
+## To install json 
+sudo apt-get install jq -y
+
+## trivy Commands
+
+trivy image imagename
+
+trivy fs --security-checks vuln --severity HIGH,CRITICAL Folder_name_OR_Path
+
+trivy image --severity HIGH,CRITICAL image_name    
+
+you can use --severity (LOW,MEDIUM,HIGH,CRITICAL) 
+
+trivy image -f json -o results.json image_name
+
+trivy repo repo-url
+
+trivy k8s --report summary cluster
+
+
+example
+```bash
+trivy fs --security-checks vuln --severity HIGH,CRITICAL Folder_name_OR_Path
+trivy image --security-checks vuln --severity HIGH,CRITICAL -f table -o Image_Scan.html image_name
+```
