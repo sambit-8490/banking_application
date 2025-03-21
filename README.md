@@ -87,8 +87,8 @@ To create a new MySQL user with the username `root` and password `Test@123`, fol
 You have successfully created a MySQL user with the username `root` and password `Test@123`.
 
 
-## Trivy Installation Steps
-
+# Trivy Installation Steps
+```sh
 sudo apt-get install wget apt-transport-https gnupg lsb-release
 
 wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
@@ -98,29 +98,68 @@ echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main |
 sudo apt-get update -y
 
 sudo apt-get install trivy -y
+```
+or
+
+[Trivy Installation](https://trivy.dev/v0.18.3/installation/ "Trivy Docs")
+
 
 ## To install json 
 sudo apt-get install jq -y
 
 ## trivy Commands
+`trivy image imagename`
 
-trivy image imagename
+`trivy fs --security-checks vuln --severity HIGH,CRITICAL Folder_name_OR_Path`
 
-trivy fs --security-checks vuln --severity HIGH,CRITICAL Folder_name_OR_Path
+`trivy image --severity HIGH,CRITICAL image_name`   
 
-trivy image --severity HIGH,CRITICAL image_name    
+`you can use --severity (LOW,MEDIUM,HIGH,CRITICAL)`
 
-you can use --severity (LOW,MEDIUM,HIGH,CRITICAL) 
+`trivy image -f json -o results.json image_name`
 
-trivy image -f json -o results.json image_name
+`trivy repo repo-url`
 
-trivy repo repo-url
+`trivy k8s --report summary cluster`
 
-trivy k8s --report summary cluster
-
-
-example
+example for using Trivy 
 ```bash
 trivy fs --security-checks vuln --severity HIGH,CRITICAL Folder_name_OR_Path
+```
+```sh
 trivy image --security-checks vuln --severity HIGH,CRITICAL -f table -o Image_Scan.html image_name
+```
+
+# GitLeaks
+`This Git Leaks are used to Scan the Project to find Out the Sensitive Information like passwords, secrets, Access Keys Etc..`
+
+## Official Doc
+[GitLeak](https://github.com/gitleaks/gitleaks "GitLeaks DOC")
+
+### Command to Install GitLeaks
+```sh
+apt install gitleaks
+```
+
+### use cases
+1. To see how many leaks
+```sh
+gitleaks detect --source dir/path
+```
+2. To know where the Leaks are Present
+```sh
+gitleaks detect --source dir/path -r gitleaks-report.json -f json
+```
+3. To scan the last commits 
+```sh
+gitleaks detect --source dir/path --log-opts="-10" -r gitleaks-commit-report.json -f json
+```
+<!-- 4. To scan at staging area
+```sh
+gitleaks protect --staged
+``` -->
+## Running the gitleaks from jenkins
+`for now we dont have dedicated plugins in jenkins so we need to install manually inside the server`
+```sh
+gitleaks detect --source dir/path -r gitleaks-report.json -f json || true
 ```
