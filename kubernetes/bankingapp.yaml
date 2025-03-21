@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: bankingapp
-        image: vootlasaicharan/bankingapp:6
+        image: vootlasaicharan/bankingapp:latest
         ports:
         - containerPort: 8080
   replicas: 1
