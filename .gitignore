@@ -37,3 +37,5 @@ docker-compose.yml
 guide.txt
 # kubernetes
 Jenkinsfile
+kubernetes-Blue-Green/
+Jenkinsfile1
