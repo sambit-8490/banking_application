@@ -3,25 +3,36 @@ version: '3.8'
 services:
   mysql:
     image: mysql:8.0
-    environment:
-      MYSQL_DATABASE: bankappdb
-      MYSQL_ROOT_PASSWORD: Test@123
+    container_name: banking_application_mysql_1
     ports:
       - "3306:3306"
-    networks:
-      - bank-net
+    environment:
+      MYSQL_ROOT_PASSWORD: Test@123
+      MYSQL_DATABASE: bankappdb  # ✅ matches spring.datasource.url
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   bankapp:
     build:
       context: .
-      dockerfile: Dockerfile
-    depends_on:
-      - mysql
+    container_name: banking_application_bankapp_1
     ports:
       - "8000:8080"
-    networks:
-      - bank-net
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+    # Optional: if your app uses env vars instead of application.properties
+    # environment:
+    #   SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/bankappdb?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+    #   SPRING_DATASOURCE_USERNAME: root
+    #   SPRING_DATASOURCE_PASSWORD: Test@123
 
-networks:
-  bank-net:
-    driver: bridge
+volumes:
+  db_data:
