@@ -1,44 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: rootpass
+        - name: MYSQL_DATABASE
+          value: bankdb
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-db-service
+  name: mysql
 spec:
   selector:
-    app: mysql-db
+    app: mysql
   ports:
     - port: 3306
-      targetPort: 3306
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: mysql-db
-  labels:
-    app: mysql-db
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: mysql-db
-  template:
-    metadata:
-      labels:
-        app: mysql-db
-    spec:
-      containers:
-        - name: mysql
-          image: mysql:8.0
-          ports:
-            - containerPort: 3306
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              value: Test@123
-            - name: MYSQL_DATABASE
-              value: bankappdb
-          volumeMounts:
-            - name: mysql-storage
-              mountPath: /var/lib/mysql
-      volumes:
-        - name: mysql-storage
-          emptyDir: {}  # Replace with PVC in production
